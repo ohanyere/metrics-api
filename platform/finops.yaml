@@ -1,14 +1,14 @@
-service: __SERVICE_NAME__
-team: __TEAM_NAME__
-costCenter: __COST_CENTER__
-environment: __ENVIRONMENT__
+service: metrics-api
+team: Payments
+costCenter: payments
+environment: dev
 labels:
-  finops.ohanyere.io/cost-center: __COST_CENTER__
-  app.kubernetes.io/name: __SERVICE_NAME__
-  app.kubernetes.io/part-of: __TEAM_NAME__
+  finops.ohanyere.io/cost-center: payments
+  app.kubernetes.io/name: metrics-api
+  app.kubernetes.io/part-of: Payments
 budgets:
   monthlyUsd: 500
   alertThresholdPercent: 80
 allocation:
   sharedPlatformOwner: ohanyere
-  workloadOwner: __TEAM_NAME__
+  workloadOwner: Payments
