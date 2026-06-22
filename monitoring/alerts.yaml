@@ -1,29 +1,29 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: __SERVICE_NAME__-alerts
+  name: metrics-api-alerts
   labels:
-    app.kubernetes.io/name: __SERVICE_NAME__
+    app.kubernetes.io/name: metrics-api
     release: prometheus
 spec:
   groups:
-    - name: __SERVICE_NAME__.availability
+    - name: metrics-api.availability
       rules:
-        - alert: __SERVICE_NAME__HighErrorRate
-          expr: sum(rate(http_requests_total{service="__SERVICE_NAME__",status=~"5.."}[5m])) / sum(rate(http_requests_total{service="__SERVICE_NAME__"}[5m])) > 0.05
+        - alert: metrics-apiHighErrorRate
+          expr: sum(rate(http_requests_total{service="metrics-api",status=~"5.."}[5m])) / sum(rate(http_requests_total{service="metrics-api"}[5m])) > 0.05
           for: 10m
           labels:
             severity: warning
-            team: __TEAM_NAME__
+            team: Payments
           annotations:
-            summary: __SERVICE_NAME__ has elevated 5xx responses.
+            summary: metrics-api has elevated 5xx responses.
             runbook_url: docs/RUNBOOK.md
-        - alert: __SERVICE_NAME__Unavailable
-          expr: up{job="__SERVICE_NAME__"} == 0
+        - alert: metrics-apiUnavailable
+          expr: up{job="metrics-api"} == 0
           for: 5m
           labels:
             severity: critical
-            team: __TEAM_NAME__
+            team: Payments
           annotations:
-            summary: __SERVICE_NAME__ is not being scraped or is unavailable.
+            summary: metrics-api is not being scraped or is unavailable.
             runbook_url: docs/RUNBOOK.md
