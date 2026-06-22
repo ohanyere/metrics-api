@@ -17,12 +17,12 @@ labels:
   - includeSelectors: true
     includeTemplates: true
     pairs:
-      app.kubernetes.io/name: __SERVICE_NAME__
-      app.kubernetes.io/part-of: __TEAM_NAME__
+      app.kubernetes.io/name: metrics-api
+      app.kubernetes.io/part-of: Payments
       app.kubernetes.io/managed-by: ohanyere-idp
       platform.ohanyere.io/template: template-node-api
-      finops.ohanyere.io/cost-center: __COST_CENTER__
+      finops.ohanyere.io/cost-center: payments
 images:
-  - name: kuberpull/__SERVICE_NAME__
-    newName: kuberpull/__SERVICE_NAME__
+  - name: kuberpull/metrics-api
+    newName: kuberpull/metrics-api
     newTag: latest
