@@ -1,0 +1,63 @@
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+  packages: write
+  security-events: write
+
+jobs:
+  validate:
+    name: validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Validate
+        run: make validate
+
+  build-sign:
+    name: build and sign
+    needs: validate
+    uses: ohanyere/platform-core/.github/workflows/reusable-build-sign.yaml@main
+    with:
+      service_name: __SERVICE_NAME__
+      dockerhub_namespace: kuberpull
+      image_tag: ${{ github.sha }}
+      dockerfile_path: ./Dockerfile
+      context_path: .
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+
+  scan:
+    name: scan
+    needs: build-sign
+    uses: ohanyere/platform-core/.github/workflows/reusable-scan.yaml@main
+    with:
+      image_ref: kuberpull/__SERVICE_NAME__:${{ github.sha }}
+    secrets: inherit
+
+  policy-check:
+    name: policy check
+    needs: scan
+    uses: ohanyere/platform-core/.github/workflows/reusable-policy-check.yaml@main
+    with:
+      manifest_path: k8s/overlays/prod
+    secrets: inherit
