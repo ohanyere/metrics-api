@@ -1,13 +1,13 @@
 apiVersion: database.platform.ohanyere.io/v1alpha1
 kind: PostgreSQLClaim
 metadata:
-  name: __SERVICE_NAME__-postgres
+  name: metrics-api-postgres
   labels:
-    app.kubernetes.io/name: __SERVICE_NAME__
-    finops.ohanyere.io/cost-center: __COST_CENTER__
+    app.kubernetes.io/name: metrics-api
+    finops.ohanyere.io/cost-center: payments
 spec:
-  environment: __ENVIRONMENT__
-  databaseName: __SERVICE_NAME__
+  environment: dev
+  databaseName: metrics-api
   size: small
   version: "16"
   backup:
