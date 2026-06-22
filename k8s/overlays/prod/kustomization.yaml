@@ -1,6 +1,6 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-namespace: __SERVICE_NAME__-prod
+namespace: metrics-api-prod
 resources:
   - ../../base
 nameSuffix: -prod
@@ -15,5 +15,5 @@ patches:
   - path: pdb-patch.yaml
   - path: quota-patch.yaml
 images:
-  - name: kuberpull/__SERVICE_NAME__
+  - name: kuberpull/metrics-api
     newTag: prod
