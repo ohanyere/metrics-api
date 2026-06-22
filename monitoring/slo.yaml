@@ -1,19 +1,19 @@
 apiVersion: sre.platform.ohanyere.io/v1alpha1
 kind: ServiceLevelObjective
 metadata:
-  name: __SERVICE_NAME__-availability
+  name: metrics-api-availability
   labels:
-    app.kubernetes.io/name: __SERVICE_NAME__
-    finops.ohanyere.io/cost-center: __COST_CENTER__
+    app.kubernetes.io/name: metrics-api
+    finops.ohanyere.io/cost-center: payments
 spec:
-  service: __SERVICE_NAME__
-  owner: __TEAM_NAME__
+  service: metrics-api
+  owner: Payments
   objective: 99.9
   window: 30d
   indicator:
     type: availability
-    goodEvents: sum(rate(http_requests_total{service="__SERVICE_NAME__",status!~"5.."}[5m]))
-    totalEvents: sum(rate(http_requests_total{service="__SERVICE_NAME__"}[5m]))
+    goodEvents: sum(rate(http_requests_total{service="metrics-api",status!~"5.."}[5m]))
+    totalEvents: sum(rate(http_requests_total{service="metrics-api"}[5m]))
   alerting:
     burnRate:
       enabled: true
