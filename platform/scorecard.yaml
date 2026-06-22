@@ -1,4 +1,4 @@
-service: __SERVICE_NAME__
+service: metrics-api
 standards:
   source: ohanyere/platform-core
   required:
